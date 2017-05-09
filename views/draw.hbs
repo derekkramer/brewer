@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="kitchensink">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Free drawing | Fabric.js Demos</title>
+
+    <style>
+        pre {
+            margin-left: 15px !important
+        }
+    </style>
+
+    <!--[if lt IE 9]>
+      <script src="../lib/excanvas.js"></script>
+    <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+</head>
+
+<body>
+
+    <script>
+        (function() {
+
+            if (document.location.hostname === 'localhost') {
+                var links = document.getElementById('header').getElementsByTagName('a')
+                for (var i = 0, len = links.length; i < len; i++) {
+                    // very retarted fix but fuck it
+                    links[i].href = links[i].href.replace('fabricjs.com', 'localhost:4000')
+                }
+            } else {
+                var s = document.createElement('script'),
+                    t = document.getElementsByTagName('script')[0]
+                s.async = true
+                s.src = 'http://api.flattr.com/js/0.6/load.js?mode=auto'
+                t.parentNode.insertBefore(s, t)
+
+                ! function(d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0]
+                    if (!d.getElementById(id)) {
+                        js = d.createElement(s)
+                        js.id = id
+                        js.src = "//platform.twitter.com/widgets.js"
+                        fjs.parentNode.insertBefore(js, fjs)
+                    }
+                }(document, "script", "twitter-wjs")
+            }
+        })()
+    </script>
+
+
+    <div id="bd-wrapper" ng-controller="CanvasControls">
+        <h2><span>Fabric.js demos</span> &middot; Free drawing</h2>
+
+        <style>
+            #drawing-mode {
+                margin-bottom: 10px;
+                vertical-align: top;
+            }
+
+            #drawing-mode-options {
+                display: inline-block;
+                vertical-align: top;
+                margin-bottom: 10px;
+                margin-top: 10px;
+                background: #f5f2f0;
+                padding: 10px;
+            }
+
+            label {
+                display: inline-block;
+                width: 130px;
+            }
+
+            .info {
+                display: inline-block;
+                width: 25px;
+                background: #ffc;
+            }
+
+            #bd-wrapper {
+                min-width: 1500px;
+            }
+        </style>
+
+        <canvas id="c" width="500" height="500" style="border:1px solid #aaa"></canvas>
+
+        <div style="display: inline-block; margin-left: 10px">
+            <button id="drawing-mode" class="btn btn-info">Cancel drawing mode</button><br>
+            <button id="clear-canvas" class="btn btn-info">Clear</button><br>
+
+            <div id="drawing-mode-options">
+                <label for="drawing-mode-selector">Mode:</label>
+                <select id="drawing-mode-selector">
+                    <option>Pencil</option>
+                    <option>Circle</option>
+                    <option>Spray</option>
+                    <option>Pattern</option>
+
+                    <option>hline</option>
+                    <option>vline</option>
+                    <option>square</option>
+                    <option>diamond</option>
+                    <option>texture</option>
+                </select><br>
+
+                <label for="drawing-line-width">Line width:</label>
+                <span class="info">30</span><input type="range" value="30" min="0" max="150" id="drawing-line-width"><br>
+
+                <label for="drawing-color">Line color:</label>
+                <input type="color" value="#005E7A" id="drawing-color"><br>
+
+                <label for="drawing-shadow-color">Shadow color:</label>
+                <input type="color" value="#005E7A" id="drawing-shadow-color"><br>
+
+                <label for="drawing-shadow-width">Shadow width:</label>
+                <span class="info">0</span><input type="range" value="0" min="0" max="50" id="drawing-shadow-width"><br>
+
+                <label for="drawing-shadow-offset">Shadow offset:</label>
+                <span class="info">0</span><input type="range" value="0" min="0" max="50" id="drawing-shadow-offset"><br>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.11/fabric.min.js"></script>
+
+    <script src="/script/draw.js"></script>
+
+    <script>
+        (function() {
+            var mainScriptEl = document.getElementById('main')
+            if (!mainScriptEl) return
+            var preEl = document.createElement('pre')
+            var codeEl = document.createElement('code')
+            codeEl.innerHTML = mainScriptEl.innerHTML
+            codeEl.className = 'language-javascript'
+            preEl.appendChild(codeEl)
+            document.getElementById('bd-wrapper').appendChild(preEl)
+        })()
+    </script>
+
+    <script>
+        (function() {
+            fabric.util.addListener(fabric.window, 'load', function() {
+                var canvas = this.__canvas || this.canvas,
+                    canvases = this.__canvases || this.canvases
+
+                canvas && canvas.calcOffset && canvas.calcOffset()
+
+                if (canvases && canvases.length) {
+                    for (var i = 0, len = canvases.length; i < len; i++) {
+                        canvases[i].calcOffset()
+                    }
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>
